@@ -1,4 +1,4 @@
-TypeScript Vite React Demo
+TypeScript Vite Table Row Selection Demo
 ===========================
 
 ```
