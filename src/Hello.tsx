@@ -4,41 +4,32 @@ import {Table} from 'antd';
 
 type Props = {};
 
-const columns = [
-    {
-        title: 'Name',
-        dataIndex: 'name',
-        render: (text: string) => <a>{text}</a>,
-    },
-    {
-        title: 'Cash Assets',
-        className: 'column-money',
-        dataIndex: 'money',
-    },
-    {
-        title: 'Address',
-        dataIndex: 'address',
-    },
-];
+interface User {
+    key: string,
+    name: string
+    children?: User[]
+}
 
-const data = [
+const data: User[] = [
     {
         key: '1',
         name: 'John Brown',
-        money: '￥300,000.00',
-        address: 'New York No. 1 Lake Park',
+        children: [{
+            key: '1-1',
+            name: 'John 1-1'
+        }]
     },
     {
         key: '2',
         name: 'Jim Green',
-        money: '￥1,256,000.00',
-        address: 'London No. 1 Lake Park',
+        children: [{
+            key: '2-1',
+            name: 'Jim 2-1'
+        }]
     },
     {
         key: '3',
         name: 'Joe Black',
-        money: '￥120,000.00',
-        address: 'Sidney No. 1 Lake Park',
     },
 ];
 
@@ -50,11 +41,21 @@ export const Hello: FC<Props> = ({}) => {
             onChange: (selectedRowKeys, selectedRows) => {
                 console.log("### onChange", {selectedRowKeys, selectedRows})
             },
+            onSelect: (record, selected: boolean, selectedRows, nativeEvent: Event) => {
+                console.log("### onSelect", {record, selected, selectedRows, nativeEvent})
+            },
             getCheckboxProps: (item) => {
                 return {
                     disabled: item.name === 'Joe Black'
                 }
             }
-        }} columns={columns} dataSource={data}/>
+        }} columns={[
+            {
+                title: 'Name',
+                render: (_, it) => <a>{it.name}</a>,
+            },
+        ]} dataSource={data}/>
     </div>;
 }
+
+
